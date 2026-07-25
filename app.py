@@ -8,7 +8,8 @@ def display_menu() -> None:
     print("=" * 40)
     print("1. Add Expense")
     print("2. View Expenses")
-    print("3. Exit")
+    print("3.Sort Expenses by Amount")
+    print("4. Exit")
 
 
 def main() -> None:
@@ -40,6 +41,9 @@ def main() -> None:
             service.view_expenses()
 
         elif choice == "3":
+            service.sort_expenses()
+
+        elif choice == "4":
 
             print("Thank You!")
             break

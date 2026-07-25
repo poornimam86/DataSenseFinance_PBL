@@ -23,3 +23,15 @@ class ExpenseService:
 
         for expense in self.expenses:
             expense.display()
+
+    def sort_expenses(self) -> None:
+        sorted_expenses = sorted(
+            self.expenses,
+            key=lambda expense: expense.amount
+        )
+
+        print("\nExpenses Sorted by Amount")
+        print("=" * 35)
+
+        for expense in sorted_expenses:
+            expense.display()
