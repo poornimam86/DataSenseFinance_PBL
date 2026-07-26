@@ -8,8 +8,11 @@ def display_menu() -> None:
     print("=" * 40)
     print("1. Add Expense")
     print("2. View Expenses")
-    print("3.Sort Expenses by Amount")
-    print("4. Exit")
+    print("3. Sort Expenses by Amount")
+    print("4. Save Expenses to File")
+    print("5. Save Expenses to CSV")
+    print("6. Load Expenses from CSV")
+    print("7. Exit")
 
 
 def main() -> None:
@@ -44,10 +47,21 @@ def main() -> None:
             service.sort_expenses()
 
         elif choice == "4":
+            service.save_to_file()
+
+
+        elif choice == "5":
+
+            service.save_to_csv()
+
+        elif choice == "6":
+            service.load_from_csv()
+
+        elif choice == "7":
 
             print("Thank You!")
-            break
 
+            break
         else:
 
             print("Invalid Choice")

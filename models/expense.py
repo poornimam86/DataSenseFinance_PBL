@@ -1,16 +1,12 @@
+from dataclasses import dataclass
+
+@dataclass
 class Expense:
     """Represents one expense."""
 
-    def __init__(
-        self,
-        expense_id: int,
-        category: str,
-        amount: float
-    ) -> None:
-
-        self.expense_id = expense_id
-        self.category = category
-        self.amount = amount
+    expense_id: int
+    category: str
+    amount: float
 
     def display(self) -> None:
         """Display expense details."""
