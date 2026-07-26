@@ -1,3 +1,6 @@
 Expense ID,Category,Amount
-1,water,500.0
-2,made,1500.0
+1,food,200.0
+2,water,400.0
+3,water,400.0
+4,movie,300.0
+5,travel,490.0

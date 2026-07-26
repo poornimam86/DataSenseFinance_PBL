@@ -12,7 +12,11 @@ def display_menu() -> None:
     print("4. Save Expenses to File")
     print("5. Save Expenses to CSV")
     print("6. Load Expenses from CSV")
-    print("7. Exit")
+    print("7. Save Expenses to JSON")
+    print("8. Load Expenses from JSON")
+    print("9.Category Count Report")
+    print("10. Category Count Report")
+    print("11. Exit")
 
 
 def main() -> None:
@@ -49,7 +53,6 @@ def main() -> None:
         elif choice == "4":
             service.save_to_file()
 
-
         elif choice == "5":
 
             service.save_to_csv()
@@ -58,6 +61,16 @@ def main() -> None:
             service.load_from_csv()
 
         elif choice == "7":
+            service.save_to_json()
+
+        elif choice == "8":
+            service.load_from_json()
+
+        elif choice == "9":
+            service.category_count()
+        elif choice == "10":
+            service.category_amount_report()
+        elif choice == "11":
 
             print("Thank You!")
 

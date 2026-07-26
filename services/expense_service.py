@@ -1,6 +1,21 @@
-from models.expense import Expense
-import csv
 
+import csv
+import json
+import configparser
+
+from pathlib import Path
+from models.expense import Expense
+from collections import Counter, defaultdict
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+# Create ConfigParser object
+config = configparser.ConfigParser()
+config.read(BASE_DIR / "config" / "config.ini")
+
+
+TEXT_FILE = Path(config["Files"]["text"])
+CSV_FILE = Path(config["Files"]["csv"])
+JSON_FILE = Path(config["Files"]["json"])
 class ExpenseService:
     """Handles expense operations."""
 
@@ -27,7 +42,7 @@ class ExpenseService:
     def save_to_file(self) -> None:
         """Save expenses to a text file."""
 
-        with open("data/expenses.txt", "w", encoding="utf-8") as file:
+        with open(TEXT_FILE, "w") as file:
 
             for expense in self.expenses:
                 file.write(f"Expense ID : {expense.expense_id}\n")
@@ -39,7 +54,7 @@ class ExpenseService:
 
     def save_to_csv(self) -> None:
 
-        with open("data/expenses.csv", "w", newline="") as file:
+        with open(CSV_FILE, "w", newline="") as file:
             writer = csv.writer(file)
 
             # Header
@@ -61,7 +76,7 @@ class ExpenseService:
 
         self.expenses.clear()
 
-        with open("data/expenses.csv", "r") as file:
+        with open(CSV_FILE, "r") as file:
             reader = csv.reader(file)
 
             next(reader)  # Skip header
@@ -77,6 +92,40 @@ class ExpenseService:
 
         print("Expenses loaded from CSV successfully!")
 
+    def save_to_json(self) -> None:
+
+        expense_list = []
+
+        for expense in self.expenses:
+            expense_list.append({
+                "expense_id": expense.expense_id,
+                "category": expense.category,
+                "amount": expense.amount
+            })
+
+        with open(JSON_FILE, "w") as file:
+            json.dump(expense_list, file, indent=4)
+
+        print("Expenses saved to JSON successfully!")
+
+    def load_from_json(self) -> None:
+
+        self.expenses.clear()
+
+        with open(JSON_FILE, "r") as file:
+            expense_list = json.load(file)
+
+        for expense in expense_list:
+            new_expense = Expense(
+                expense["expense_id"],
+                expense["category"],
+                expense["amount"]
+            )
+
+            self.expenses.append(new_expense)
+
+        print(f"{len(self.expenses)} expenses loaded from JSON successfully!")
+
     def sort_expenses(self) -> None:
         sorted_expenses = sorted(
             self.expenses,
@@ -88,3 +137,31 @@ class ExpenseService:
 
         for expense in sorted_expenses:
             expense.display()
+
+    def category_count(self) -> None:
+
+        categories = []
+
+        for expense in self.expenses:
+            categories.append(expense.category)
+
+        counter = Counter(categories)
+
+        print("\nCategory Report")
+        print("=" * 30)
+
+        for category, count in counter.items():
+            print(f"{category} : {count}")
+
+    def category_amount_report(self) -> None:
+
+        category_total = defaultdict(float)
+
+        for expense in self.expenses:
+            category_total[expense.category] += expense.amount
+
+        print("\nCategory-wise Amount Report")
+        print("=" * 35)
+
+        for category, amount in category_total.items():
+            print(f"{category} : ₹{amount:.2f}")
