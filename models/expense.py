@@ -1,17 +1,20 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class Expense:
-    """Represents one expense."""
+    """Represents one financial transaction."""
 
     expense_id: int
     category: str
     amount: float
+    transaction_type: str
 
     def display(self) -> None:
-        """Display expense details."""
+        """Display transaction details."""
 
         print("-" * 35)
         print("Expense ID :", self.expense_id)
         print("Category   :", self.category)
         print("Amount     :", self.amount)
+        print("Type       :", self.transaction_type)

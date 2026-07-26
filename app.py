@@ -15,8 +15,16 @@ def display_menu() -> None:
     print("7. Save Expenses to JSON")
     print("8. Load Expenses from JSON")
     print("9.Category Count Report")
-    print("10. Category Count Report")
-    print("11. Exit")
+    print("10. Category_wise Summary")
+    print("11. Expense Statistics(NumPy)")
+    print("12. View Expenses as DataFrame")
+    print("13. Income vs Expense Summary")
+    print("14. Filter by Trasaction Type")
+    print("15. Expense Bar Chart")
+    print("16. Expense Pie Chart ")
+    print("17. Analystics Dashboard ")
+    print("18. Exit")
+
 
 
 def main() -> None:
@@ -34,13 +42,14 @@ def main() -> None:
             expense_id = int(input("Enter Expense ID: "))
             category = input("Enter Category: ")
             amount = float(input("Enter Amount: "))
+            transaction_type = input("Enter Type (Income/Expense): ")
 
             expense = Expense(
                 expense_id,
                 category,
-                amount
+                amount,
+                transaction_type
             )
-
             service.add_expense(expense)
 
         elif choice == "2":
@@ -68,11 +77,31 @@ def main() -> None:
 
         elif choice == "9":
             service.category_count()
-        elif choice == "10":
-            service.category_amount_report()
-        elif choice == "11":
 
-            print("Thank You!")
+        elif choice == "10":
+            service.category_summary()
+
+        elif choice == "11":
+            service.expense_statistics()
+
+
+        elif choice == "12":
+            service.view_dataframe()
+
+        elif choice == "13":
+            service.income_expense_summary()
+
+        elif choice == "14":
+            service.filter_by_type()
+
+        elif choice == "15":
+            service.expense_bar_chart()
+        elif choice == "16":
+            service.expense_pie_chart()
+        elif choice == "17":
+            service.analytics_dashboard()
+        elif choice == "18":
+            print("Thank YOu!")
 
             break
         else:
