@@ -23,7 +23,8 @@ def display_menu() -> None:
     print("15. Expense Bar Chart")
     print("16. Expense Pie Chart ")
     print("17. Analystics Dashboard ")
-    print("18. Exit")
+    print("18. Visual Dashboard ")
+    print("19. Exit")
 
 
 
@@ -43,12 +44,14 @@ def main() -> None:
             category = input("Enter Category: ")
             amount = float(input("Enter Amount: "))
             transaction_type = input("Enter Type (Income/Expense): ")
+            transaction_date = input("Enter Transaction Date (DD-MM-YYYY): ")
 
             expense = Expense(
                 expense_id,
                 category,
                 amount,
-                transaction_type
+                transaction_type,
+                transaction_date
             )
             service.add_expense(expense)
 
@@ -96,11 +99,17 @@ def main() -> None:
 
         elif choice == "15":
             service.expense_bar_chart()
+
         elif choice == "16":
             service.expense_pie_chart()
+
         elif choice == "17":
             service.analytics_dashboard()
+
         elif choice == "18":
+            service.visual_dashboard()
+
+        elif choice == "19":
             print("Thank YOu!")
 
             break

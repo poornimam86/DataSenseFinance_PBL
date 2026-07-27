@@ -1,27 +1,9 @@
 [
     {
-        "expense_id": "1",
+        "expense_id": 1,
         "category": "food",
-        "amount": 200.0
-    },
-    {
-        "expense_id": "2",
-        "category": "water",
-        "amount": 400.0
-    },
-    {
-        "expense_id": "3",
-        "category": "water",
-        "amount": 400.0
-    },
-    {
-        "expense_id": "4",
-        "category": "movie",
-        "amount": 300.0
-    },
-    {
-        "expense_id": "5",
-        "category": "travel",
-        "amount": 490.0
+        "amount": 300.0,
+        "transaction_type": "expense",
+        "transaction_date": "02-07-2026"
     }
 ]

@@ -1,6 +1,2 @@
-Expense ID,Category,Amount
-1,food,200.0
-2,water,400.0
-3,water,400.0
-4,movie,300.0
-5,travel,490.0
+Expense ID,Category,Amount,Type,Transaction Date
+1,food,400.0,expense,02-02-2026

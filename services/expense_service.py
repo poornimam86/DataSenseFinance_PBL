@@ -65,7 +65,8 @@ class ExpenseService:
                 "Expense ID",
                 "Category",
                 "Amount",
-                "Type"
+                "Type",
+                "Transaction Date"
             ])
 
             for expense in self.expenses:
@@ -73,7 +74,8 @@ class ExpenseService:
                     expense.expense_id,
                     expense.category,
                     expense.amount,
-                    expense.transaction_type
+                    expense.transaction_type,
+                    expense.transaction_date
                 ])
 
         print("Expenses saved to CSV successfully!")
@@ -87,13 +89,15 @@ class ExpenseService:
             reader = csv.reader(file)
 
             next(reader)  # Skip header
-
+            for row in reader:
+                print("Row:", row)
             for row in reader:
                 expense = Expense(
                     int(row[0]),
                     row[1],
                     float(row[2]),
-                    row[3]
+                    row[3],
+                    row[4]
                 )
                 self.expenses.append(expense)
 
@@ -102,6 +106,8 @@ class ExpenseService:
     def save_to_json(self) -> None:
         """Save expenses to JSON."""
 
+        print("Number of expenses:", len(self.expenses))
+
         data = []
 
         for expense in self.expenses:
@@ -109,7 +115,8 @@ class ExpenseService:
                 "expense_id": expense.expense_id,
                 "category": expense.category,
                 "amount": expense.amount,
-                "transaction_type": expense.transaction_type
+                "transaction_type": expense.transaction_type,
+                "transaction_date": expense.transaction_date
             })
 
         with open(JSON_FILE, "w") as file:
@@ -120,7 +127,7 @@ class ExpenseService:
     def load_from_json(self) -> None:
         """Load expenses from JSON."""
 
-        self.expenses.clear()
+        self.expenses.clear()  # <-- Add this line
 
         with open(JSON_FILE, "r") as file:
             data = json.load(file)
@@ -130,7 +137,8 @@ class ExpenseService:
                 item["expense_id"],
                 item["category"],
                 item["amount"],
-                item["transaction_type"]
+                item["transaction_type"],
+                item["transaction_date"]
             )
             self.expenses.append(expense)
 
@@ -207,7 +215,8 @@ class ExpenseService:
             "Expense ID": [],
             "Category": [],
             "Amount": [],
-            "Type": []
+            "Type": [],
+            "Transaction Date": []
         }
 
         for expense in self.expenses:
@@ -215,6 +224,7 @@ class ExpenseService:
             data["Category"].append(expense.category)
             data["Amount"].append(expense.amount)
             data["Type"].append(expense.transaction_type)
+            data["Transaction Date"].append(expense.transaction_date)
 
         df = pd.DataFrame(data)
 
@@ -325,11 +335,25 @@ class ExpenseService:
 
         summary = df.groupby("Category")["Amount"].sum()
 
-        summary.plot(kind="bar")
+        summary.plot(
+            kind="bar",
+            color="skyblue",
+            edgecolor="black"
+        )
 
-        plt.title("Expense by Category")
-        plt.xlabel("Category")
-        plt.ylabel("Total Amount")
+        plt.title(
+            "Expense by Category",
+            fontsize=16,
+            fontweight="bold"
+        )
+        plt.xlabel("Expense Category", fontsize=12)
+        plt.ylabel("Amount (₹)", fontsize=12)
+        plt.grid(axis="y", linestyle="--", alpha=0.6)
+
+        plt.xticks(rotation=45)
+
+        plt.tight_layout()
+
 
         plt.show()
 
@@ -347,16 +371,36 @@ class ExpenseService:
 
         summary = df.groupby("Category")["Amount"].sum()
 
+        colors = [
+            "skyblue",
+            "lightgreen",
+            "gold",
+            "lightcoral",
+            "plum",
+            "lightsalmon"
+        ]
+
         plt.figure(figsize=(6, 6))
 
         plt.pie(
             summary,
             labels=summary.index,
             autopct="%1.1f%%",
-            startangle=90
+            startangle=90,
+            colors=colors,
+            shadow=True,
+            wedgeprops={"edgecolor": "black"}
         )
 
-        plt.title("Expense Distribution by Category")
+        plt.title(
+            "Expense Distribution by Category",
+            fontsize=16,
+            fontweight="bold"
+        )
+
+        plt.axis("equal")
+
+        plt.tight_layout()
 
         plt.show()
 
@@ -383,3 +427,71 @@ class ExpenseService:
 
         print("\n6. Expense Pie Chart")
         self.expense_pie_chart()
+
+    def visual_dashboard(self):
+
+        data = []
+
+        for expense in self.expenses:
+            data.append({
+                "Category": expense.category,
+                "Amount": expense.amount
+            })
+
+        if not data:
+            print("No expense data available.")
+            return
+
+        df = pd.DataFrame(data)
+
+        summary = df.groupby("Category")["Amount"].sum()
+
+        fig, ax = plt.subplots(1, 2, figsize=(12, 5))
+
+        # ----------------------------
+        # Bar Chart
+        # ----------------------------
+        summary.plot(
+            kind="bar",
+            ax=ax[0],
+            color="skyblue",
+            edgecolor="black"
+        )
+
+        ax[0].set_title("Expense by Category")
+        ax[0].set_xlabel("Category")
+        ax[0].set_ylabel("Amount (₹)")
+        ax[0].grid(axis="y", linestyle="--", alpha=0.6)
+
+        # ----------------------------
+        # Pie Chart
+        # ----------------------------
+        colors = [
+            "skyblue",
+            "lightgreen",
+            "gold",
+            "lightcoral",
+            "plum",
+            "lightsalmon"
+        ]
+
+        ax[1].pie(
+            summary,
+            labels=summary.index,
+            autopct="%1.1f%%",
+            startangle=90,
+            colors=colors,
+            wedgeprops={"edgecolor": "black"}
+        )
+
+        ax[1].set_title("Expense Distribution")
+
+        plt.suptitle(
+            "Expense Analytics Dashboard",
+            fontsize=16,
+            fontweight="bold"
+        )
+
+        plt.tight_layout()
+
+        plt.show()
