@@ -4,6 +4,13 @@
         "category": "food",
         "amount": 300.0,
         "transaction_type": "expense",
-        "transaction_date": "02-07-2026"
+        "transaction_date": "02-02-2026"
+    },
+    {
+        "expense_id": 2,
+        "category": "travel",
+        "amount": 400.0,
+        "transaction_type": "expense",
+        "transaction_date": "03-03-2026"
     }
 ]

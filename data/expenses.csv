@@ -1,2 +1,3 @@
 Expense ID,Category,Amount,Type,Transaction Date
-1,food,400.0,expense,02-02-2026
+1,food,300.0,expense,02-02-2026
+2,travel,400.0,expense,03-03-2026

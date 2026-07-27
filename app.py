@@ -24,7 +24,8 @@ def display_menu() -> None:
     print("16. Expense Pie Chart ")
     print("17. Analystics Dashboard ")
     print("18. Visual Dashboard ")
-    print("19. Exit")
+    print("19. Monthly Expense Trend")
+    print("20. Exit")
 
 
 
@@ -110,6 +111,9 @@ def main() -> None:
             service.visual_dashboard()
 
         elif choice == "19":
+            service.monthly_expense_trend()
+
+        elif choice == "20":
             print("Thank YOu!")
 
             break

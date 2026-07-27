@@ -89,9 +89,10 @@ class ExpenseService:
             reader = csv.reader(file)
 
             next(reader)  # Skip header
+
             for row in reader:
                 print("Row:", row)
-            for row in reader:
+
                 expense = Expense(
                     int(row[0]),
                     row[1],
@@ -99,8 +100,10 @@ class ExpenseService:
                     row[3],
                     row[4]
                 )
+
                 self.expenses.append(expense)
 
+        print("Total expenses after loading:", len(self.expenses))
         print("Expenses loaded from CSV successfully!")
 
     def save_to_json(self) -> None:
@@ -494,4 +497,48 @@ class ExpenseService:
 
         plt.tight_layout()
 
+        plt.show()
+
+    def monthly_expense_trend(self):
+
+        if not self.expenses:
+            print("No expense data available.")
+            return
+
+        data = []
+
+        for expense in self.expenses:
+            data.append({
+                "Date": expense.transaction_date,
+                "Amount": expense.amount,
+                "Type": expense.transaction_type
+            })
+
+        df = pd.DataFrame(data)
+
+        df["Date"] = pd.to_datetime(
+            df["Date"],
+            format="%d-%m-%Y"
+        )
+
+        df = df[df["Type"].str.lower() == "expense"]
+
+        monthly = df.groupby(
+            df["Date"].dt.to_period("M")
+        )["Amount"].sum()
+
+        plt.figure(figsize=(8, 5))
+
+        monthly.plot(
+            kind="line",
+            marker="o",
+            linewidth=2
+        )
+
+        plt.title("Monthly Expense Trend")
+        plt.xlabel("Month")
+        plt.ylabel("Total Expense")
+        plt.grid(True)
+
+        plt.tight_layout()
         plt.show()
