@@ -1,6 +1,6 @@
 from models.expense import Expense
 from services.expense_service import ExpenseService
-
+from services.api_service import APIService
 
 def display_menu() -> None:
     print("\n" + "=" * 40)
@@ -25,13 +25,16 @@ def display_menu() -> None:
     print("17. Analystics Dashboard ")
     print("18. Visual Dashboard ")
     print("19. Monthly Expense Trend")
-    print("20. Exit")
+    print("20. Live Exchange Rates")
+    print("21. Exit")
 
-
+#api = APIService()
+#api.get_exchange_rates()
 
 def main() -> None:
 
     service = ExpenseService()
+    api = APIService()
 
     while True:
 
@@ -114,6 +117,9 @@ def main() -> None:
             service.monthly_expense_trend()
 
         elif choice == "20":
+            api.get_exchange_rates()
+
+        elif choice == "21":
             print("Thank YOu!")
 
             break
